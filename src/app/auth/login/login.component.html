@@ -1,0 +1,72 @@
+<style>
+  :host {
+    background-color: #f5f5f5;
+    height: 100vh;
+    display: flex;
+    padding: 3rem;
+  }
+
+  .form-login {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    margin: auto;
+  }
+</style>
+
+<form class="form-login" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h1 class="h3 mb-3 fw-normal text-center">Faça o login</h1>
+  <div class="form-floating mb-3">
+    <input
+      type="email"
+      class="form-control"
+      id="floatingInput"
+      formControlName="email"
+      placeholder="Seu email"
+      [ngClass]="getValidationClasses('email')"
+    />
+    <label for="floatingInput">Email</label>
+    <div class="invalid-feedback" *ngIf="f['email'] as control">
+      <ng-container *ngIf="control.hasError('required')">
+        Você deve preencher esse campo
+      </ng-container>
+      <ng-container *ngIf="control.hasError('email')">
+        Você deve fornecer um email válido
+      </ng-container>
+    </div>
+  </div>
+  <div class="form-floating">
+    <input
+      type="password"
+      class="form-control"
+      id="floatingPassword"
+      formControlName="password"
+      placeholder="Sua senha"
+      [ngClass]="getValidationClasses('password')"
+    />
+    <label for="floatingPassword">Senha</label>
+    <div class="invalid-feedback" *ngIf="f['password'] as control">
+      <ng-container *ngIf="control.hasError('required')">
+        Você deve preencher esse campo
+      </ng-container>
+    </div>
+  </div>
+  <button
+    class="btn btn-primary btn-lg w-100 mt-3"
+    type="submit"
+    [disabled]="loading$ | async"
+  >
+    <ng-container *ngIf="loading$ | async; else btnTxt">
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      Aguarde...
+    </ng-container>
+    <ng-template #btnTxt>Entrar</ng-template>
+  </button>
+  <p class="text-muted text-center mt-5">
+    &copy;{{ year }} - Todos os direitos reservados.
+  </p>
+</form>
